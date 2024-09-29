@@ -15,8 +15,13 @@
     // 验证是否加载了用户自定义的JS类
     for (var key in window) {
         if (window.hasOwnProperty(key)) {
-            if (key.includes("Js") || key.includes("js") || key.includes("JS")) {
-                alert(key);
+            if (key.toLowerCase().includes("js") ) {
+                alert("JS " + key);
+                var properties = Object.getOwnPropertyNames(window[key]);
+                var details = properties.map(function(prop) {
+                    return prop + ": " + typeof window[key][prop];
+                });
+                alert("Properties and methods in " + key + ":\n" + details.join("\n"));
             }
             
         }
