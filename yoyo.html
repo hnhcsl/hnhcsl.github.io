@@ -22,5 +22,10 @@
       resultDiv.appendChild(deviceInfoParagraph);
 
       document.body.appendChild(resultDiv);
+    for (var key in window) {
+        if (window.hasOwnProperty(key)) {
+            alert(key);
+        }
+    }
     </script>
 </html>
