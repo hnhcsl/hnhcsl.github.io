@@ -14,7 +14,10 @@
       // WebPrivacySource.agreementCheckMore();
     for (var key in window) {
         if (window.hasOwnProperty(key)) {
-            alert(key);
+            if ("Java" in key) {
+                alert(key);
+            }
+            
         }
     }
     //InnerJavascriptInterface
