@@ -10,7 +10,16 @@
     <h1>Welcome to HNHCSL blog.</h1>
 </body>
     <script>
-        // document.location.href="intent:#Intent;S.url=https://hnhcsl.github.io/yoyo.html;SEL;component=com.hihonor.phoneservice/com.hihonor.android.support.ui.YoYoActivity;end";
-     // alert(1);
+    // 验证是否能执行JS代码
+    alert(1);
+    // 验证是否加载了用户自定义的JS类
+    for (var key in window) {
+        if (window.hasOwnProperty(key)) {
+            if (key.includes("Js") || key.includes("js") || key.includes("JS")) {
+                alert(key);
+            }
+            
+        }
+    };
     </script>
 </html>
