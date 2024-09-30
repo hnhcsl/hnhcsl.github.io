@@ -12,6 +12,7 @@
     alert('1');
     const possibleInterfaces = ['MonitorBridge','androidJS','AMapAndroidLoc','NCGObject','handler','JSInterface','_WebViewJavascriptBridge','AjaxIntercept'];
     function checkJavascriptInterface(){
+      alert('2');
       let foundInterface = [];
       possibleInterfaces.forEach(interfaceName=>{
         const jsInterface = window[interfaceName];
