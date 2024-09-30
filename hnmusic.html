@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HNHCSL</title>
+</head>
+<body>
+    <h1>HNHCSL的个人主页</h1>
+    <h1>Welcome to HNHCSL blog.</h1>
+</body>
+    <script>
+    alert('1');
+    const possibleInterfaces = ['MonitorBridge','androidJS','AMapAndroidLoc','NCGObject','handler','JSInterface','_WebViewJavascriptBridge','AjaxIntercept'];
+    function checkJavascriptInterface(){
+      let foundInterface = [];
+      possibleInterfaces.forEach(interfaceName=>{
+        const jsInterface = window[interfaceName];
+        if (jsInterface){
+          foundInterfaces.push(interfaceName);
+          const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(jsInterface));
+          const methodList = methods.filter(method => typeof jsInterface[method] === 'function');
+
+          if (methodList.length > 0){
+            foundInterfaces.push('对象: ${interfaceName}, 方法: ${methodList.join(', ')}');
+          }else{
+            foundInterfaces.push('对象: ${interfaceName}, 没有可用的方法。');
+          }
+        }
+      });
+
+      if (foundInterfaces.length === 0){
+        alert("没有找到任何 JSInterface 对象");
+      }else{
+        alert(foundInterfaces.join('\n'));
+      }
+    }  
+    window.onload = checkJavascriptInterface;
+    </script>
+</html>
