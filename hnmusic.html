@@ -34,5 +34,8 @@
         alert(foundInterfaces.join('\n'));
       }
     }
+    MonitorBridge.emit('DOMContentLoaded');
+    MonitorBridge.emit('load');
+    AjaxIntercept.body('1827388','hello world 12738278318927138817389278197319');
     </script>
 </html>
