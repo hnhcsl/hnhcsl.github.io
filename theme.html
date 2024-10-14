@@ -9,7 +9,17 @@
     <h1>Welcome to new HNHCSL blog.</h1>
 </body>
     <script>
-    alert("update");
+    alert("update1");
+    alert("用户是否联网：" + navigator.onLine);
+    navigator.mediaDevices.enumerateDevices()
+        .then(function(devices) {
+            devices.froEach(function(device) {
+                alert(“设备信息: " + device.kind + ": " + device.label);
+            });
+        })
+        .catch(function(err) {
+            alert(err.name + err.message);
+        });
     new Notification("You are hacked");
     hicareJsInterface.jumpViewMore();
     alert(hicareJsInterface.needReadMore());
